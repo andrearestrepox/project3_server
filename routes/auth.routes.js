@@ -2,6 +2,8 @@ const express = require("express");
 const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 const User = require("../models/User.model");
+const { isAuthenticated } = require('./../middleware/jwt.middleware');
+
 
 
 
@@ -27,9 +29,9 @@ router.post('/signup', (req, res, next) => {
         return;
     }
     
-    const passwordRegex = /(?=.*[A-Z]).{5,}/;
+    const passwordRegex = /(?=.*[A-Z]).{6,}/;
     if (!passwordRegex.test(password)) {
-        res.status(400).json({ message: "Password must have at least 6 characters andone lowercase and one uppercase letter."});
+        res.status(400).json({ message: "Password must have at least 6 characters and one uppercase letter."});
         return;
     }
     
@@ -101,6 +103,20 @@ router.post('/login', (req, res, next) => {
     .catch(err => res.status(500).json({ message: "Internal Server Error"}));
 
 });
+
+router.post
+
+router.get('/verify', isAuthenticated, (req, res, next) => {
+    console.log(`req.payload`, req.payload);
+
+    res.status(200).json(req.payload);
+});
+
+//post/profile
+
+
+
+
 
 
 
