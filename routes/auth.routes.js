@@ -84,17 +84,37 @@ router.post('/login', (req, res, next) => {
         const passwordCorrect = bcrypt.compareSync(password, foundUser.passwordHash);
 
         if(passwordCorrect) {
-            const { _id, email, name, profileId } = foundUser;
+console.log(foundUser)
+            if(foundUser.profileId != null){
+                foundUser.populate('profileId')
+                .then(populatedFoundUser => {
+                    const { _id, email, name, profileId } = populatedFoundUser;
 
-            const payload = { _id, email, name, profileId };
+                    const payload = { _id, email, name, profileId };
+                    console.log(payload)
+                    const authToken = jwt.sign(
+                        payload, 
+                        process.env.TOKEN_SECRET,
+                        { algorithm: 'HS256', expiresIn: "6h" }
+                    );
+                    
+                    res.status(200).json({ authToken: authToken });
+                })
+            } else {
+                const { _id, email, name, profileId } = foundUser;
 
-            const authToken = jwt.sign(
-                payload, 
-                process.env.TOKEN_SECRET,
-                { algorithm: 'HS256', expiresIn: "6h" }
-            );
+                    const payload = { _id, email, name, profileId };
+                    console.log(payload)
+                    const authToken = jwt.sign(
+                        payload, 
+                        process.env.TOKEN_SECRET,
+                        { algorithm: 'HS256', expiresIn: "6h" }
+                    );
+                    
+                    res.status(200).json({ authToken: authToken });
+            }
             
-            res.status(200).json({ authToken: authToken });
+            
         }
         else {
             res.status(401).json({ message: "Unable to authenticate the user."});
