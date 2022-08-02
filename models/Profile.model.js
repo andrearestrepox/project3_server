@@ -3,11 +3,12 @@ const { Schema, model } = require("mongoose");
 const profileSchema = new Schema(
     {
         
-        user: { type: Schema.Types.ObjectId, ref: 'User', required: true},
+        userId: { type: Schema.Types.ObjectId, ref: 'User', required: true},
         
         bio: { type: String, required: true },
         
-        profilePic: {
+        imageUrl: {
+            type: String,
             required: true
         },
         
@@ -22,25 +23,25 @@ const profileSchema = new Schema(
         required: true
     },      
 
-    question1: {
-        type: String,
+    answerOne: {
+        type: Schema.Types.ObjectId, ref: 'Answer',
         required: true
     }, 
-    question2:{
-        type: String, 
+    answerTwo:{
+        type: Schema.Types.ObjectId, ref: 'Answer',
         required: true
     },
-    question3: {
-        type: String,
+    answerThree: {
+        type: Schema.Types.ObjectId, ref: 'Answer',
         required: true
     
     },
-    question4: {
-        type: String,
+    answerFour: {
+        type: Schema.Types.ObjectId, ref: 'Answer',
         required: true
     },
-    question5: {
-        type: String,
+    answerFive: {
+        type: Schema.Types.ObjectId, ref: 'Answer',
         required: true
     },
    
@@ -52,7 +53,7 @@ const profileSchema = new Schema(
 
 )
 
-const Profile = ("Profile", ProfileSchema)
+const Profile = model("Profile", profileSchema)
 
 module.exports = Profile;
 

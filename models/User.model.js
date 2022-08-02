@@ -21,6 +21,11 @@ const userSchema = new Schema(
     passwordHash: {
       type: String,
       require: [true, 'Password is required.']
+    },
+    profileId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Profile',
+      default: null
     }
   },
 

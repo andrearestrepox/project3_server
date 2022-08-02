@@ -43,11 +43,11 @@ router.post('/signup', (req, res, next) => {
         res.status(400).json({ message: "User already exists"});
         return;
     }
-
+//
     const salt = bcrypt.genSaltSync(saltRounds);
     const hashedPassword = bcrypt.hashSync(password, salt);
 
-    return User.create({email, password: hashedPassword, name });
+    return User.create({email, passwordHash: hashedPassword, name });
 }) 
 .then((createdUser) => {
    
@@ -81,12 +81,12 @@ router.post('/login', (req, res, next) => {
             return;
         }
 
-        const passwordCorrect = bcrypt.compareSync(password, foundUser.password);
+        const passwordCorrect = bcrypt.compareSync(password, foundUser.passwordHash);
 
         if(passwordCorrect) {
-            const { _id, email, name } = foundUser;
+            const { _id, email, name, profileId } = foundUser;
 
-            const payload = { _id, email, name };
+            const payload = { _id, email, name, profileId };
 
             const authToken = jwt.sign(
                 payload, 
@@ -104,7 +104,6 @@ router.post('/login', (req, res, next) => {
 
 });
 
-router.post
 
 router.get('/verify', isAuthenticated, (req, res, next) => {
     console.log(`req.payload`, req.payload);
@@ -112,7 +111,7 @@ router.get('/verify', isAuthenticated, (req, res, next) => {
     res.status(200).json(req.payload);
 });
 
-//post/profile
+
 
 
 
