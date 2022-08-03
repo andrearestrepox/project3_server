@@ -7,7 +7,7 @@ const answerSchema = new Schema({
         required: true
     },
     
-    profileId: {type: Schema.Types.ObjectId, ref: 'Profile',},
+    userId: {type: Schema.Types.ObjectId, ref: 'User',},
     questionId: {type: Schema.Types.ObjectId, ref: 'Question',}
 
 

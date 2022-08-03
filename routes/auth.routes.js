@@ -50,6 +50,7 @@ router.post('/signup', (req, res, next) => {
     return User.create({email, passwordHash: hashedPassword, name });
 }) 
 .then((createdUser) => {
+    console.log(createdUser)
    
     const { email, name, _id} = createdUser;
 
